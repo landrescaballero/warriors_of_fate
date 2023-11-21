@@ -1,4 +1,6 @@
+import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
+import 'package:warriors_of_fate/gamepage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +18,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.dark,
       home: const MyHomePage(title: 'Warriors of fate'),
     );
   }
@@ -30,14 +34,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,19 +46,27 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'Vas a golpear al dragon\nLo haz golpeado:',
+              'Estás listo para la batalla?',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            const SizedBox(
+              height: 20,
+            ),
+            FloatingActionButton(
+              onPressed: () {
+                WidgetsFlutterBinding.ensureInitialized();
+                Flame.device.fullScreen();
+                Flame.device.setPortraitUpOnly();
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const GamePage()),
+                );
+              },
+              tooltip: 'Increment',
+              child: const Icon(Icons.play_arrow),
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
